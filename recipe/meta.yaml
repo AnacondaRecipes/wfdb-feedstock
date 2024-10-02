@@ -43,7 +43,7 @@ test:
     - wfdb.processing
     - wfdb.io
   requires:
-    - pip
+    - pip <24.2
     - pytest
   commands:
     - pip check
