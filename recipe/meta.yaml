@@ -6,8 +6,6 @@ package:
   version: {{ version }}
 
 source:
-  #url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  #sha256: 6acef3ab2759f60cf911a57d9e5214ea15bd17b5ad4b3c66e4a57a7690e16024
   url: https://github.com/MIT-LCP/{{ name }}-python/archive/refs/tags/v{{ version }}.tar.gz
   sha256: c96c62b8abede8c0987c77d49285c923f114787a96d110cf95dac5e5d56360cd
 
