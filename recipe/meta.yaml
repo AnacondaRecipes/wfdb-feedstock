@@ -24,6 +24,7 @@ requirements:
     - poetry
     - python
     - setuptools
+    - wheel
   run:
     - python
     - numpy >=1.10.1
