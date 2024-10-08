@@ -1,6 +1,6 @@
 upload_channels:
   - sfe1ed40
 channels:
-  - https://staging.continuum.io/prefect/fs/pysoundfile-feedstock/pr1/0564515
+  - https://staging.continuum.io/prefect/fs/pysoundfile-feedstock/pr1/b5ea904
   - https://staging.continuum.io/prefect/fs/libsndfile-feedstock/pr3/f3ccf26
   - https://staging.continuum.io/prefect/fs/libopus-feedstock/pr2/e0c0cd0
