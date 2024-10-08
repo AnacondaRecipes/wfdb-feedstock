@@ -14,15 +14,13 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
   # pysound not available for s390x or win
   # No poetry for python 3.12
-  skip: true  # [py<37 or py>311 or s390x or win]
+  skip: true  # [py<37 or s390x or win]
 
 requirements:
   host:
     - pip
-    - poetry
+    - poetry-core
     - python
-    - setuptools
-    - wheel
   run:
     - python
     - numpy >=1.10.1
@@ -44,6 +42,7 @@ test:
   requires:
     - pip <24.2
     - pytest
+    - pytest-xdist >=2.5.0
   commands:
     - pip check
       # test-{1-3,5} are having ValueError: operands could not be broadcast together with shapes.
