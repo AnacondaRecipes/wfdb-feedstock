@@ -8,6 +8,9 @@ package:
 source:
   url: https://github.com/MIT-LCP/{{ name }}-python/archive/refs/tags/v{{ version }}.tar.gz
   sha256: c96c62b8abede8c0987c77d49285c923f114787a96d110cf95dac5e5d56360cd
+  patches:
+    # fix https://github.com/MIT-LCP/wfdb-python/pull/459
+    - patches/0001_fix-numpy-valueerror.patch
 
 build:
   number: 0
@@ -16,6 +19,9 @@ build:
   skip: true  # [py<37 or s390x or win]
 
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win]
   host:
     - pip
     - poetry-core >=1.0.0

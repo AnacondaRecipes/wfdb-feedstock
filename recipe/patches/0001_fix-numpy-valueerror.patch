@@ -1,0 +1,35 @@
+From 0e23a49ddb34fadf72fe0457d23eef066e1a3532 Mon Sep 17 00:00:00 2001
+From: Alex Jadczak <ajadczak@sunriselabs.com>
+Date: Tue, 27 Jun 2023 12:25:13 -0400
+Subject: [PATCH] bug-fix: Numpy ValueError when cheking empty list equality
+
+FIX: https://github.com/MIT-LCP/wfdb-python/pull/459
+
+Using the equality operator with an empty list will result in the
+following error.
+
+ValueError: operands could not be broadcast together with shapes (28,) (0,)
+
+Using len() and inverting the logic avoids this issue.
+---
+ wfdb/io/annotation.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/wfdb/io/annotation.py b/wfdb/io/annotation.py
+index 655d121..5cde1ed 100644
+--- a/wfdb/io/annotation.py
++++ b/wfdb/io/annotation.py
+@@ -940,10 +940,10 @@ def wr_ann_file(self, write_fs, write_dir=""):
+         core_bytes = self.calc_core_bytes()
+ 
+         # Mark the end of the special annotation types if needed
+-        if fs_bytes == [] and cl_bytes == []:
+-            end_special_bytes = []
+-        else:
++        if len(fs_bytes) or len(cl_bytes):
+             end_special_bytes = [0, 236, 255, 255, 255, 255, 1, 0]
++        else:
++            end_special_bytes = []
+ 
+         # Write the file
+         with open(
