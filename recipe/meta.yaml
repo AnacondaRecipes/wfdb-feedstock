@@ -12,7 +12,7 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
-  # pysound not available for s390x or win
+  # pysoundfile not available for s390x or win
   skip: true  # [py<37 or s390x or win]
 
 requirements:
