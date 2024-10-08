@@ -13,13 +13,12 @@ build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
   # pysound not available for s390x or win
-  # No poetry for python 3.12
   skip: true  # [py<37 or s390x or win]
 
 requirements:
   host:
     - pip
-    - poetry-core
+    - poetry-core >=1.0.0
     - python
   run:
     - python
