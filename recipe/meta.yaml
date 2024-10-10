@@ -1,29 +1,33 @@
 {% set name = "wfdb" %}
 {% set version = "4.1.2" %}
-{% set sha256 = "6acef3ab2759f60cf911a57d9e5214ea15bd17b5ad4b3c66e4a57a7690e16024" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/MIT-LCP/{{ name }}-python/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: c96c62b8abede8c0987c77d49285c923f114787a96d110cf95dac5e5d56360cd
+  patches:
+    # fix https://github.com/MIT-LCP/wfdb-python/pull/459
+    - patches/0001_fix-numpy-valueerror.patch
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
+  # pysoundfile not available for s390x or win
+  skip: true  # [py<37 or s390x or win]
 
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win]
   host:
     - pip
-    - poetry
-    - python >=3.7
-    - setuptools
+    - poetry-core >=1.0.0
+    - python
   run:
-    - python >=3.7
+    - python
     - numpy >=1.10.1
     - scipy >=1.0.0
     - pandas >=1.3.0
@@ -32,11 +36,21 @@ requirements:
     - requests >=2.8.1
 
 test:
+  source_files:
+    - tests
+    - sample-data
   imports:
     - wfdb
     - wfdb.plot
     - wfdb.processing
     - wfdb.io
+  requires:
+    - pip
+    - pytest
+    - pytest-xdist >=2.5.0
+  commands:
+    - pip check
+    - pytest -vv tests
 
 about:
   home: https://github.com/MIT-LCP/wfdb-python
@@ -45,7 +59,7 @@ about:
   license_file: LICENSE
   summary: The WFDB Python Toolbox
   description: Native python scripts for reading and writing WFDB signals and annotations.
-  doc_url: https://wfdb.readthedocs.io/en/latest/
+  doc_url: https://wfdb.readthedocs.io
   dev_url: https://github.com/MIT-LCP/wfdb-python
 
 extra:
